@@ -7,4 +7,4 @@ class VividClient(App):
         super().__init__(*args, **kwargs)
         self.port = port
         self.host = host
-        self.conn = rpyc.connect(host, port)
+        self.connection = rpyc.connect(host, port)

@@ -1,3 +1,4 @@
+import inspect
 import threading
 from .client import VividClient
 from .exceptions import ServerMissing, ClientMissing
@@ -17,7 +18,7 @@ class VividApp:
                 server: Type[VividServer] = None,
                 client: Type[VividClient] = None,
 
-                title: str = 'Моё приложение'
+                title: str = 'My App'
         ):
 
         self.server_host = server_host
@@ -38,10 +39,10 @@ class VividApp:
         self.server().run()
 
     def run_client(self):
-        module = self.client.__module__
+        file_path = inspect.getfile(self.client)
         name = self.client.__name__
 
-        cmd = f"python -m vivid_mud._runner {module}:{name} --port {self.server_port} --host {self.server_host}"
+        cmd = f"python -m vivid_mud._runner {file_path}:{name} --port {self.server_port} --host {self.server_host}"
 
         web = TextualServer(
             cmd,
@@ -54,14 +55,10 @@ class VividApp:
 
     def run(self):
         if self.client is None:
-            return ClientMissing(
-                'Для данного приложения не задан клиент.'
-            )
+            raise ClientMissing('No client set for this app.')
 
         if self.server is None:
-            return ServerMissing(
-                'Для данного приложения не задан сервер.'
-            )
+            raise ServerMissing('No server set for this app.')
 
         threading.Thread(target=self.run_server, daemon=True).start()
         self.run_client()

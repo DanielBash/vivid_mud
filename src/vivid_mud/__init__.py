@@ -1,8 +1,6 @@
-"""Данный модуль - фреймворк для textual, созданный для быстрой и интуитивной разработки
-онлайн текстовых рпг, для игры в браузере."""
+"""Framework for building multiplayer text RPGs playable in the browser."""
 
-from . import examples
-from . import client
-from . import server
-from . import app
+from .server import VividServer as Server
+from .client import VividClient as Client
+from .app import VividApp as App
 from . import exceptions
