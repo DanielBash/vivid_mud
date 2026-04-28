@@ -1,0 +1,122 @@
+name: Release & Publish
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  release:
+    if: |
+      github.actor != 'github-actions[bot]' &&
+      contains(github.event.head_commit.message, '[RELEASE]')
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      id-token: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: pip install build
+
+      - name: Determine bump type
+        id: bump
+        run: |
+          msg="${{ github.event.head_commit.message }}"
+
+          if [[ "$msg" == *"[MAJOR]"* ]]; then
+            echo "type=major" >> $GITHUB_OUTPUT
+          elif [[ "$msg" == *"[MINOR]"* ]]; then
+            echo "type=minor" >> $GITHUB_OUTPUT
+          elif [[ "$msg" == *"[PATCH]"* ]]; then
+            echo "type=patch" >> $GITHUB_OUTPUT
+          else
+            echo "No bump type specified"; exit 1
+          fi
+
+      - name: Bump version safely
+        id: version
+        run: |
+          python << 'EOF'
+          import tomllib
+          import re
+          import sys
+
+          bump = "${{ steps.bump.outputs.type }}"
+
+          with open("pyproject.toml", "rb") as f:
+              data = tomllib.load(f)
+
+          version = data["project"]["version"]
+          major, minor, patch = map(int, version.split("."))
+
+          if bump == "major":
+              major += 1; minor = 0; patch = 0
+          elif bump == "minor":
+              minor += 1; patch = 0
+          elif bump == "patch":
+              patch += 1
+
+          new_version = f"{major}.{minor}.{patch}"
+
+          with open("pyproject.toml", "r") as f:
+              content = f.read()
+
+          content = re.sub(
+              r'version\s*=\s*".*?"',
+              f'version = "{new_version}"',
+              content,
+              count=1
+          )
+
+          with open("pyproject.toml", "w") as f:
+              f.write(content)
+
+          print(f"NEW_VERSION={new_version}")
+          EOF
+        shell: bash
+
+      - name: Extract version
+        id: get_version
+        run: |
+          VERSION=$(grep '^version' pyproject.toml | head -1 | cut -d '"' -f2)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Commit version bump
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add pyproject.toml
+          git commit -m "Release v${{ steps.get_version.outputs.version }}"
+          git push
+
+      - name: Create tag (safe)
+        run: |
+          TAG="v${{ steps.get_version.outputs.version }}"
+          git tag -f "$TAG"
+          git push origin "$TAG" --force
+
+      - name: Build package
+        run: |
+          python -m build
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: "v${{ steps.get_version.outputs.version }}"
+          name: "v${{ steps.get_version.outputs.version }}"
+          generate_release_notes: true

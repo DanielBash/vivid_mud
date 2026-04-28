@@ -1,0 +1,60 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vivid_mud"
+version = "0.1.0"
+description = "Модуль, основанный на textual, для создания текстовых MMO RPG"
+readme = "PYPI.md"
+requires-python = ">=3.10"
+keywords = ["textual", "mud", "mmorpg", "rpg", "game", "terminal", "tui"]
+
+dependencies = [
+    "textual>=0.50.0",
+]
+
+authors = [
+    { name = "Daniel", email = "daniel@hell-0.ru" }
+]
+
+license = { text = "Apache-2.0" }
+
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "License :: OSI Approved :: Apache Software License",
+    "Framework :: Textual",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+]
+
+[project.urls]
+Homepage = "https://github.com/DanielBash/vivid_mud"
+Issues = "https://github.com/DanielBash/vivid_mud/issues"
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "build",
+    "ruff",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
+
+[tool.ruff.format]
+quote-style = "double"
