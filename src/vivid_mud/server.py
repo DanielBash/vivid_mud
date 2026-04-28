@@ -4,10 +4,10 @@ from rpyc.utils.server import ThreadedServer
 
 class VividServer(rpyc.Service):
     def on_connect(self, conn):
-        print("Client connected")
+        print("Клиент подключен")
 
     def on_disconnect(self, conn):
-        print("Client disconnected")
+        print("Клиент отключен")
 
     def exposed_ping(self):
         return "pong"

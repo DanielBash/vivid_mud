@@ -55,10 +55,10 @@ class VividApp:
 
     def run(self):
         if self.client is None:
-            raise ClientMissing('No client set for this app.')
+            raise ClientMissing('Для приложения не задан клиент.')
 
         if self.server is None:
-            raise ServerMissing('No server set for this app.')
+            raise ServerMissing('Для приложения не задан сервер.')
 
         threading.Thread(target=self.run_server, daemon=True).start()
         self.run_client()

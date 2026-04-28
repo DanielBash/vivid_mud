@@ -14,7 +14,7 @@ def main():
 
     spec = importlib.util.spec_from_file_location("_vivid_user_module", file_path)
     if spec is None or spec.loader is None:
-        raise ImportError(f"Cannot load module from {file_path}")
+        raise ImportError(f"Нельзя импортировать модуль из {file_path}")
     module = importlib.util.module_from_spec(spec)
     sys.modules["_vivid_user_module"] = module
     spec.loader.exec_module(module)  # type: ignore[union-attr]

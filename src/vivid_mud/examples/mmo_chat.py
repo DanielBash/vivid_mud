@@ -19,11 +19,11 @@ class ChatClient(vivid_mud.Client):
         with Center():
             with Vertical():
                 yield Static("", id="chat")
-                yield Input(placeholder="Type a message...", id="cmd")
-                yield Button("Send", id="send")
+                yield Input(placeholder="Введите сообщение...", id="cmd")
+                yield Button("Отправить", id="send")
 
     def on_mount(self):
-        self.set_interval(1, self.refresh_messages)
+        self.set_interval(0.1, self.refresh_messages)
 
     def refresh_messages(self):
         messages = self.connection.root.get_messages()
@@ -37,4 +37,4 @@ class ChatClient(vivid_mud.Client):
 
 
 if __name__ == "__main__":
-    vivid_mud.App(server=ChatServer, client=ChatClient, title="MMO Chat").run()
+    vivid_mud.App(server=ChatServer, client=ChatClient, title="Онлайн чат").run()
