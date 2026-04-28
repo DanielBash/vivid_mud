@@ -12,6 +12,8 @@ keywords = ["textual", "mud", "mmorpg", "rpg", "game", "terminal", "tui"]
 
 dependencies = [
     "textual>=0.50.0",
+    "textual-serve",
+    "rpyc"
 ]
 
 authors = [
