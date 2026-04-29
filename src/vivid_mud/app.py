@@ -1,5 +1,4 @@
 import inspect
-import logging
 import threading
 from .client import VividClient
 from .exceptions import ServerMissing, ClientMissing

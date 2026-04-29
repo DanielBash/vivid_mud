@@ -1,8 +1,8 @@
 import datetime
 import vivid_mud
 from textual.app import ComposeResult
-from textual.containers import Center, Vertical, Middle, Horizontal
-from textual.widgets import Input, Button, Static, TextArea, Markdown
+from textual.containers import Vertical, Horizontal
+from textual.widgets import Button, TextArea, Markdown
 
 
 class ChatServer(vivid_mud.Server):
