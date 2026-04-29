@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "vivid-mud"
-version = "0.3.0"
+version = "0.3.1"
 description = "Модуль, основанный на textual, для создания текстовых MMO RPG"
 readme = "PYPI.md"
 requires-python = ">=3.10"
