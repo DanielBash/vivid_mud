@@ -1,3 +1,5 @@
+import datetime
+
 import vivid_mud
 from textual.app import ComposeResult
 from textual.containers import Center, Vertical
@@ -8,7 +10,11 @@ class ChatServer(vivid_mud.Server):
     messages = []
 
     def exposed_send(self, msg: str):
-        self.messages.append(msg)
+        send_time = datetime.datetime.time(datetime.datetime.now()).replace(microsecond=0)
+        self.messages.append({
+            'time': send_time,
+            'message': msg
+        })
 
     def exposed_get_messages(self):
         return self.messages
@@ -27,7 +33,7 @@ class ChatClient(vivid_mud.Client):
 
     def refresh_messages(self):
         messages = self.connection.root.get_messages()
-        self.query_one("#chat", Static).update("\n".join(messages))
+        self.query_one("#chat", Static).update("\n".join(map(lambda x: f'{x['time']} {x['message']}', messages)))
 
     def on_button_pressed(self, _event: Button.Pressed) -> None:
         cmd = self.query_one("#cmd", Input)
