@@ -8,18 +8,16 @@ from textual_serve.server import Server as TextualServer
 
 
 class VividApp:
-    def __init__(self,
-                server_port: int = 18861,
-                server_host: str = 'localhost',
-
-                web_client_port: int = 8080,
-                web_client_host: str = 'localhost',
-
-                server: Type[VividServer] = None,
-                client: Type[VividClient] = None,
-
-                title: str = 'My App'
-        ):
+    def __init__(
+        self,
+        server_port: int = 18861,
+        server_host: str = "localhost",
+        web_client_port: int = 8080,
+        web_client_host: str = "localhost",
+        server: Type[VividServer] = None,
+        client: Type[VividClient] = None,
+        title: str = "My App",
+    ):
 
         self.server_host = server_host
         self.server_port = server_port
@@ -55,10 +53,10 @@ class VividApp:
 
     def run(self):
         if self.client is None:
-            raise ClientMissing('Для приложения не задан клиент.')
+            raise ClientMissing("Для приложения не задан клиент.")
 
         if self.server is None:
-            raise ServerMissing('Для приложения не задан сервер.')
+            raise ServerMissing("Для приложения не задан сервер.")
 
         threading.Thread(target=self.run_server, daemon=True).start()
         self.run_client()
