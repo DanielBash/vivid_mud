@@ -47,6 +47,6 @@ class ChatClient(vivid_mud.Client):
         self.connection.root.send(cmd.value)
         cmd.value = ""
 
-if __name__ == "__main__":
-    vivid_mud.App(server=ChatServer, client=ChatClient, title="Онлайн чат").run()
+        
+    vivid_mud.App(__name__, server=ChatServer, client=ChatClient, title="Онлайн чат").run()
 ```

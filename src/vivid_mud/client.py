@@ -1,6 +1,8 @@
 from textual.app import App
 import rpyc
+import logging
 
+logger = logging.getLogger('client_log')
 
 class VividClient(App):
     def __init__(self, host, port, *args, **kwargs):
@@ -8,3 +10,6 @@ class VividClient(App):
         self.port = port
         self.host = host
         self.connection = rpyc.connect(host, port)
+
+    def vivid_log(self, text):
+        logger.info(text)
