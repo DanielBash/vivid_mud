@@ -19,7 +19,7 @@ class VividApp:
             web_client_host: str = "localhost",
             server: Type[VividServer] = None,
             client: Type[VividClient] = None,
-            title: str = "My App",
+            title: str = "Моя приложуха",
             module_log: str = 'vivid_mud.log',
             server_log: str = 'server.log',
             public_url: str = 'localhost'
@@ -54,13 +54,21 @@ class VividApp:
 
         cmd = f"{sys.executable} -m vivid_mud._runner {file_path}:{name} --port {self.server_port} --host {self.server_host}"
 
-        web = TextualServer(
-            cmd,
-            host=self.web_client_host,
-            port=self.web_client_port,
-            title=self.title,
-            public_url=self.public_url
-        )
+        if self.public_url == 'localhost':
+            web = TextualServer(
+                cmd,
+                host=self.web_client_host,
+                port=self.web_client_port,
+                title=self.title,
+            )
+        else:
+            web = TextualServer(
+                cmd,
+                host=self.web_client_host,
+                port=self.web_client_port,
+                title=self.title,
+                public_url=self.public_url
+            )
 
         web.serve()
 
