@@ -22,6 +22,7 @@ class VividApp:
             title: str = "My App",
             module_log: str = 'vivid_mud.log',
             server_log: str = 'server.log',
+            public_url: str = 'localhost'
     ):
 
         self.server_host = server_host
@@ -29,6 +30,8 @@ class VividApp:
 
         self.web_client_host = web_client_host
         self.web_client_port = web_client_port
+
+        self.public_url = public_url
 
         self.server = server
         self.client = client
@@ -56,6 +59,7 @@ class VividApp:
             host=self.web_client_host,
             port=self.web_client_port,
             title=self.title,
+            public_url=self.public_url
         )
 
         web.serve()
