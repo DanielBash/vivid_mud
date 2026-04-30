@@ -22,7 +22,6 @@ class VividApp:
             title: str = "My App",
             module_log: str = 'vivid_mud.log',
             server_log: str = 'server.log',
-            serve_log: str = 'serve.log'
     ):
 
         self.server_host = server_host
@@ -37,7 +36,6 @@ class VividApp:
         self.title = title
         self.name = name
 
-        self.serve_log = serve_log
         self.module_log = module_log
         self.server_log = server_log
 

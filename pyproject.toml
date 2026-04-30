@@ -60,3 +60,6 @@ line-length = 100
 
 [tool.ruff.format]
 quote-style = "double"
+
+[tool.setuptools.package-data]
+my_package = ["assets/*"]
