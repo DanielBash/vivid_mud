@@ -50,3 +50,5 @@ class ChatClient(vivid_mud.Client):
         
     vivid_mud.App(__name__, server=ChatServer, client=ChatClient, title="Онлайн чат").run()
 ```
+
+Модуль еще в разработке.
