@@ -1,0 +1,1 @@
+recursive-include src/vivid_mud/assets *.txt

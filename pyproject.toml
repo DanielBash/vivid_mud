@@ -62,7 +62,7 @@ line-length = 100
 quote-style = "double"
 
 [tool.setuptools.package-data]
-my_package = ["vivid_mud/assets/*"]
+my_package = ["assets/*"]
 
 [tool.setuptools]
 package-dir = {"" = "src"}
